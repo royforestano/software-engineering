@@ -49,27 +49,27 @@ It is guaranteed for each appearance of the character '*', there will be a previ
 
 """
 
-# N is teh text length, M is the pattern length
+# N is the s length, M is the p length
 # Time: O(N*M)
 # Space: O(N*M)
 class Solution(object):
-    def isMatch(self, text, pattern):
+    def isMatch(self, s,p):
         memo = {}
 
         def dp(i, j):
             if (i, j) not in memo:
-                if j == len(pattern):
-                    ans = i == len(text) # if finish going through the pattern, also want to finish the text
+                if j == len(p):
+                    ans = i == len(s) # if finish going through the p, also want to finish the s
                 else:
-                    # check to make sure there is more text
-                    # see if the j-th pattern character is the i-th text character is if it is the "any element" delimiter "."
-                    first_match = i < len(text) and pattern[j] in {text[i], "."} 
-                    # make sure there is more pattern and 
+                    # check to make sure there is more s
+                    # see if the j-th p character is the i-th s character is if it is the "any element" delimiter "."
+                    first_match = i < len(s) and p[j] in {s[i], "."} 
+                    # make sure there is more p and 
                     # check if it should match the previous character
-                    if j + 1 < len(pattern) and pattern[j + 1] == "*":
-                        # First: Check if you reach the end or ( I am not sure)
-                        # Second: make sure pattern[j] is text[i] and check if pattern [j]
-                        # is text[i+1] indicating "*" admits True
+                    if j + 1 < len(p) and p[j + 1] == "*":
+                        # First: Check if you reach the end or a "letter*" combination which is a single character
+                        # Second: make sure p[j] is s[i] and check if p [j]
+                        # is s[i+1] indicating "*" admits True
                         ans = dp(i, j + 2) or first_match and dp(i + 1, j)
                     else:
                         # Continue along until a special character shows up
